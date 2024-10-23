@@ -1,0 +1,47 @@
+/* Import Fredoka One font */
+@import url('https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap');
+
+/* Styling for the Fredoka One font */
+.fredoka-one {
+  font-family: 'Fredoka One', cursive;
+}
+
+/* General styles */
+.sermon-card {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.sermon-card:hover {
+  transform: translateY(-5px);
+}
+
+.sermon-card img {
+  border-radius: 8px;
+}
+
+.sermon-description {
+  color: #4a4a4a;
+}
+
+.sermon-title {
+  font-weight: bold;
+  font-size: 1.8rem;
+}
+
+/* Custom button styles */
+.view-all-button {
+    background-color: #38a169; /* Green */
+    padding: 12px 24px;
+    font-size: 1.2rem;
+    font-family: 'Fredoka One', cursive;
+    color: white;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+  }
+  
+  .view-all-button:hover {
+    background-color: #2f855a;
+  }
+  
