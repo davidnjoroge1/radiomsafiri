@@ -115,7 +115,7 @@ const Navbar = () => {
   const donateAction = {
     name: 'Donate',
     icon: <Heart size={24} className="text-pink-500" />,
-    path: '/support'
+    path: 'support'
   };
 
   const handleScroll = (path) => {
