@@ -88,9 +88,9 @@ const Navbar = () => {
 
   const navigationItems = [
     { name: 'Home', path: '#home', icon: <img src="/images/home.png" alt="Home" className="w-6 h-6" /> },
-    { name: 'Team', path: '#Team', icon: <img src="/images/group.png" alt="Team" className="w-6 h-6" /> },
     { name: 'Sermons', path: '#sermons', icon: <img src="/images/book.png" alt="Sermons" className="w-6 h-6" /> },
     { name: 'Services', path: '#services', icon: <img src="/images/customer-review.png" alt="Services" className="w-6 h-6" /> },
+    { name: 'Events', path: '#events', icon: <img src="/images/event.png" alt="Events" className="w-6 h-6" /> },
     { name: 'Contact', path: '#contact', icon: <img src="/images/supportcu.png" alt="Contact" className="w-6 h-6" /> },
   ];
 
@@ -112,18 +112,17 @@ const Navbar = () => {
     }
   ];
 
-
   const donateAction = {
     name: 'Donate',
     icon: <Heart size={24} className="text-pink-500" />,
-    action: () => console.log('Donate clicked')
+    path: '/support'
   };
 
   const handleScroll = (path) => {
     const section = document.querySelector(path);
     if (section) {
       section.scrollIntoView({ behavior: 'smooth' });
-      setIsOpen(false); // Close the mobile menu on scroll (if open)
+      setIsOpen(false);
     }
   };
 
@@ -131,6 +130,7 @@ const Navbar = () => {
     <nav className="bg-white shadow-md">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-20">
+          {/* ... Logo section remains the same ... */}
           <div className="flex-shrink-0 flex items-center">
             <a href="#home" className="flex items-center space-x-3">
               <img 
@@ -173,8 +173,8 @@ const Navbar = () => {
             ))}
             
             {/* Desktop Donate Button */}
-            <button
-              onClick={donateAction.action}
+            <a
+              href={donateAction.path}
               className="p-3 hover:bg-gray-100 rounded-full transition-colors duration-200 ml-4 border-l pl-4 relative group"
               title={donateAction.name}
             >
@@ -182,22 +182,8 @@ const Navbar = () => {
               <span className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 text-xs text-gray-600 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
                 {donateAction.name}
               </span>
-            </button>
+            </a>
           </div>
-          <RadioPlayerModal
-          isOpen={isPlayerOpen}
-          onClose={() => setIsPlayerOpen(false)}
-        />
-
-        <style jsx global>{`
-          @keyframes music-bar {
-            0%, 100% { transform: scaleY(0.3); }
-            50% { transform: scaleY(1); }
-          }
-          .animate-music-bar {
-            animation: music-bar 1s ease-in-out infinite;
-          }
-        `}</style>
 
           {/* Mobile menu button */}
           <div className="md:hidden flex items-center">
@@ -211,37 +197,66 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Mobile menu */}
+      {/* Enhanced Mobile menu */}
       <div
         className={`${
           isOpen ? 'translate-x-0 opacity-100' : '-translate-x-full opacity-0'
-        } md:hidden transition-all duration-500 ease-in-out transform bg-white shadow-md fixed top-0 left-0 h-screen w-2/3 z-50`}
+        } md:hidden fixed top-0 left-0 h-screen w-4/5 z-50 bg-white shadow-2xl transition-all duration-500 ease-in-out transform`}
       >
-        <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+        {/* Mobile Header */}
+        <div className="bg-gray-50 p-4 flex items-center justify-between border-b">
+          <img src="/images/logo.jpeg" alt="RadioMsafiri" className="h-10 w-auto" />
+          <button
+            onClick={() => setIsOpen(false)}
+            className="p-2 rounded-full hover:bg-gray-200 transition-colors"
+          >
+            <X size={24} className="text-gray-600" />
+          </button>
+        </div>
+
+        {/* Mobile Navigation Items */}
+        <div className="py-6 px-4 space-y-2">
           {navigationItems.map((item) => (
             <button
               key={item.name}
               onClick={() => handleScroll(item.path)}
-              className="text-gray-600 hover:text-blue-600 block px-4 py-3 rounded-md text-base font-medium flex items-center space-x-3"
+              className="w-full text-left p-4 rounded-lg text-gray-600 hover:bg-blue-50 hover:text-blue-600 transition-colors flex items-center space-x-4 group"
             >
-              {item.icon}
-              <span>{item.name}</span>
+              <div className="p-2 bg-gray-100 rounded-lg group-hover:bg-blue-100 transition-colors">
+                {item.icon}
+              </div>
+              <span className="font-medium">{item.name}</span>
             </button>
           ))}
-          
-          {/* Mobile Donate Button */}
-          <button
-            onClick={() => {
-              donateAction.action();
-              setIsOpen(false);
-            }}
-            className="w-full text-left px-4 py-3 text-gray-600 hover:text-blue-600 flex items-center space-x-3"
+        </div>
+
+        {/* Mobile Actions Section */}
+        <div className="absolute bottom-0 left-0 right-0 border-t bg-gray-50 p-4 space-y-3">
+          <a
+            href={donateAction.path}
+            className="w-full bg-pink-500 text-white p-4 rounded-lg flex items-center justify-center space-x-2 hover:bg-pink-600 transition-colors"
           >
-            {donateAction.icon}
-            <span>{donateAction.name}</span>
-          </button>
+            <Heart size={20} />
+            <span className="font-medium">Support Us</span>
+          </a>
         </div>
       </div>
+
+      {/* Radio Player Modal */}
+      <RadioPlayerModal
+        isOpen={isPlayerOpen}
+        onClose={() => setIsPlayerOpen(false)}
+      />
+
+      <style jsx global>{`
+        @keyframes music-bar {
+          0%, 100% { transform: scaleY(0.3); }
+          50% { transform: scaleY(1); }
+        }
+        .animate-music-bar {
+          animation: music-bar 1s ease-in-out infinite;
+        }
+      `}</style>
     </nav>
   );
 };
