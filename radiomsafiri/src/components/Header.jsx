@@ -33,9 +33,7 @@ const Header = () => {
         </h1>
 
         {/* Mission Statement */}
-        <p className="text-2xl font-bold mb-4 animate-fadeInUp text-gray-300">
-          Spreading the <span className="text-red-400 font-bold">Heavenly Message</span>
-        </p>
+        
         <p className="text-lg mb-6 animate-fadeIn text-gray-300">
           Depopulating Earth to Populate Heaven
         </p>
@@ -46,11 +44,7 @@ const Header = () => {
         </p>
 
         {/* Bible Verse */}
-        <blockquote className="text-lg italic mb-6 animate-fadeIn text-gray-400 max-w-xl">
-          "Go therefore and make disciples of all nations, baptizing them in the name of the Father and of the Son and of the Holy Spirit." 
-          <br />
-          — Matthew 28:19
-        </blockquote>
+        
       </div>
 
       {/* Custom Styling */}
