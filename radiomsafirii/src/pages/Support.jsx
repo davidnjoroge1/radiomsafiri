@@ -43,7 +43,7 @@ const Support = () => {
     {
       title: "M-PESA",
       icon: "/images/mpesa.png",
-      details: "0720378689",
+      details: "+254720378689",
       instructions: "Send directly to the number"
     },
     {

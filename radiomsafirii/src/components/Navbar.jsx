@@ -2,14 +2,11 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Menu, X, Heart, Music } from 'lucide-react';
 
+// RadioPlayerModal component
 const RadioPlayerModal = ({ isOpen, onClose }) => {
   return (
     <>
-      <div
-        className={`fixed inset-0 bg-black/60 backdrop-blur-md transition-all duration-300 z-50
-          ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
-        onClick={onClose}
-      />
+      
       <div
         className={`fixed left-1/2 bottom-0 w-full md:w-auto md:top-1/2 -translate-x-1/2 md:-translate-y-1/2 
           bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-900
@@ -79,6 +76,7 @@ const RadioPlayerModal = ({ isOpen, onClose }) => {
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isPlayerOpen, setIsPlayerOpen] = useState(false);
+  const [activeItem, setActiveItem] = useState('/');
 
   const navigationItems = [
     { name: 'Home', path: '/', icon: <img src="/images/home.png" alt="Home" className="w-6 h-6" /> },
@@ -115,8 +113,8 @@ const Navbar = () => {
           {/* Logo section */}
           <div className="flex-shrink-0 flex items-center">
             <Link to="/" className="flex items-center space-x-3">
-              <img src="/images/logo.jpeg" alt="RadioMsafiri" className="h-10 w-auto" />
-              <span className="font-bold text-xl md:text-2xl hidden md:block">RadioMsafiri</span>
+              <img src="/images/logo.jpeg" alt="RadioMsafiri" className="h-10 w-auto rounded-lg" />
+              <span className="font-bold text-xl md:text-2xl hidden md:block bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">RadioMsafiri</span>
             </Link>
           </div>
 
@@ -126,7 +124,7 @@ const Navbar = () => {
               <button
                 key={item.name}
                 onClick={item.action}
-                className={`p-2 md:p-3 hover:bg-gray-100 rounded-full transition-colors duration-200 ${item.className} relative group`}
+                className={`p-2 md:p-3 hover:bg-gray-100 rounded-full transition-all duration-200 ${item.className} relative group hover:scale-105`}
                 title={item.name}
               >
                 {item.icon}
@@ -151,7 +149,7 @@ const Navbar = () => {
               <Link
                 key={item.name}
                 to={item.path}
-                className="text-gray-600 hover:text-blue-600 px-4 py-2 rounded-md text-sm font-medium flex items-center space-x-2"
+                className="text-gray-600 hover:text-blue-600 px-4 py-2 rounded-md text-sm font-medium flex items-center space-x-2 transition-all duration-300 hover:bg-blue-50"
               >
                 {item.icon}
                 <span>{item.name}</span>
@@ -161,56 +159,92 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Backdrop */}
+      {/* Enhanced Mobile Navigation */}
+      {/* Backdrop with more blur */}
       <div
-        className={`fixed inset-0 bg-black/30 backdrop-blur-sm transition-opacity duration-300 md:hidden ${
+        className={`fixed inset-0 bg-black/40 backdrop-blur-lg transition-opacity duration-300 md:hidden ${
           isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
         }`}
         onClick={() => setIsOpen(false)}
       />
 
-      {/* Mobile Navigation Drawer */}
+      {/* Enhanced Sidebar */}
       <div
-        className={`fixed top-0 left-0 h-full w-72 bg-white shadow-2xl transform transition-transform duration-300 ease-in-out md:hidden ${
+        className={`fixed top-0 left-0 h-full w-72 bg-gradient-to-b from-white to-gray-50 shadow-2xl transform transition-all duration-300 ease-out md:hidden ${
           isOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
         <div className="flex flex-col h-full">
-          {/* Mobile Header */}
-          <div className="p-4 bg-gray-50 flex items-center justify-between border-b">
-            <Link to="/" className="flex items-center space-x-2" onClick={() => setIsOpen(false)}>
-              <img src="/images/logo.jpeg" alt="RadioMsafiri" className="h-8 w-auto" />
-              <span className="font-bold text-lg">RadioMsafiri</span>
+          {/* Enhanced Mobile Header */}
+          <div className="p-6 bg-gradient-to-r from-blue-50 to-purple-50 flex items-center justify-between border-b border-gray-200">
+            <Link to="/" className="flex items-center space-x-3" onClick={() => setIsOpen(false)}>
+              <img src="/images/logo.jpeg" alt="RadioMsafiri" className="h-10 w-auto rounded-lg shadow-md" />
+              <span className="font-bold text-xl bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">RadioMsafiri</span>
             </Link>
             <button
               onClick={() => setIsOpen(false)}
-              className="p-2 rounded-full hover:bg-gray-200 transition-colors"
+              className="p-2 rounded-full hover:bg-white/80 transition-all duration-300 hover:scale-110"
             >
               <X size={20} className="text-gray-600" />
             </button>
           </div>
 
-          {/* Navigation Items */}
-          <div className="flex-1 overflow-y-auto py-4">
-            {navigationItems.map((item) => (
-              <Link
-                key={item.name}
-                to={item.path}
-                onClick={() => setIsOpen(false)}
-                className="flex items-center space-x-3 px-4 py-3 text-gray-600 hover:bg-gray-50 hover:text-blue-600 transition-colors duration-200"
-              >
-                <div className="w-6 h-6 flex items-center justify-center">
+          {/* Enhanced Navigation Items */}
+          <div className="flex-1 overflow-y-auto py-6 px-4">
+            <div className="space-y-2">
+              {navigationItems.map((item) => (
+                <Link
+                  key={item.name}
+                  to={item.path}
+                  onClick={() => {
+                    setIsOpen(false);
+                    setActiveItem(item.path);
+                  }}
+                  className={`flex items-center space-x-4 px-4 py-3 rounded-xl transition-all duration-300
+                    ${activeItem === item.path 
+                      ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-lg shadow-blue-500/30' 
+                      : 'text-gray-600 hover:bg-blue-50 hover:text-blue-600'}`}
+                >
+                  <div className={`w-8 h-8 flex items-center justify-center rounded-lg ${
+                    activeItem === item.path ? 'bg-white/20' : 'bg-gray-100'
+                  }`}>
+                    {item.icon}
+                  </div>
+                  <span className="font-medium">{item.name}</span>
+                </Link>
+              ))}
+            </div>
+          </div>
+
+          {/* New: Footer Section */}
+          <div className="p-6 border-t border-gray-200 bg-gradient-to-t from-gray-50 to-white">
+            <div className="flex items-center justify-center space-x-4">
+              {persistentActions.map((item) => (
+                <button
+                  key={item.name}
+                  onClick={item.action}
+                  className="p-3 rounded-xl bg-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
+                >
                   {item.icon}
-                </div>
-                <span className="font-medium">{item.name}</span>
-              </Link>
-            ))}
+                </button>
+              ))}
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Radio Player Modal */}
+      {/* Radio Player Modal remains unchanged */}
       <RadioPlayerModal isOpen={isPlayerOpen} onClose={() => setIsPlayerOpen(false)} />
+
+      <style jsx global>{`
+        @keyframes music-bar {
+          0%, 100% { transform: scaleY(0.3); }
+          50% { transform: scaleY(1); }
+        }
+        .animate-music-bar {
+          animation: music-bar 1s ease-in-out infinite;
+        }
+      `}</style>
     </nav>
   );
 };
