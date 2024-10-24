@@ -1,29 +1,24 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom'; // Import Link from react-router-dom
+import { Link } from 'react-router-dom';
 import { Menu, X, Heart, Music } from 'lucide-react';
 
-// RadioPlayerModal component remains unchanged
 const RadioPlayerModal = ({ isOpen, onClose }) => {
   return (
     <>
-      {/* Backdrop */}
       <div
         className={`fixed inset-0 bg-black/60 backdrop-blur-md transition-all duration-300 z-50
           ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
         onClick={onClose}
       />
-
-      {/* Modal */}
       <div
-        className={`fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 
+        className={`fixed left-1/2 bottom-0 w-full md:w-auto md:top-1/2 -translate-x-1/2 md:-translate-y-1/2 
           bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-900
-          rounded-2xl p-6 shadow-2xl transition-all duration-500 z-50
+          rounded-t-2xl md:rounded-2xl p-6 shadow-2xl transition-all duration-500 z-50
           ${isOpen 
-            ? 'opacity-100 scale-100 translate-y-0' 
-            : 'opacity-0 scale-90 translate-y-10 pointer-events-none'
+            ? 'translate-y-0 opacity-100 scale-100' 
+            : 'translate-y-full md:translate-y-10 opacity-0 scale-90 pointer-events-none'
           }`}
       >
-        {/* Close button */}
         <button
           onClick={onClose}
           className="absolute right-4 top-4 text-white/80 hover:text-white 
@@ -32,7 +27,6 @@ const RadioPlayerModal = ({ isOpen, onClose }) => {
           <X size={24} />
         </button>
 
-        {/* Content */}
         <div className="space-y-6">
           <div className="flex items-center justify-center space-x-4">
             <div className="animate-pulse">
@@ -41,13 +35,12 @@ const RadioPlayerModal = ({ isOpen, onClose }) => {
             <h2 className="text-2xl font-bold text-white">Radio Msafiri Live</h2>
           </div>
 
-          {/* Player container with animation */}
           <div className="relative">
             <div className="absolute inset-0 bg-white/5 rounded-lg animate-pulse" />
             <iframe
               src="https://zeno.fm/player/radiomsafiri"
-              title='Radiomsafiri'
-              width="300"
+              title="Radiomsafiri"
+              width="100%"
               height="250"
               frameBorder="0"
               scrolling="no"
@@ -55,7 +48,6 @@ const RadioPlayerModal = ({ isOpen, onClose }) => {
             />
           </div>
 
-          {/* Audio visualizer bars */}
           <div className="flex justify-center space-x-1 h-8 items-end">
             {[...Array(12)].map((_, i) => (
               <div
@@ -94,15 +86,15 @@ const Navbar = () => {
     { name: 'Services', path: '/services', icon: <img src="/images/customer-review.png" alt="Services" className="w-6 h-6" /> },
     { name: 'Events', path: '/events', icon: <img src="/images/event.png" alt="Events" className="w-6 h-6" /> },
     { name: 'Contact', path: '/contact', icon: <img src="/images/supportcu.png" alt="Contact" className="w-6 h-6" /> },
-    { name: 'Team', path: '/team', icon: <img src="/images/team.png" alt="Contact" className="w-6 h-6" /> },
-    { name: 'Support', path: '/support', icon: <Heart size={24} className="text-pink-500" /> } // Updated path for Donate
+    { name: 'Team', path: '/team', icon: <img src="/images/team.png" alt="Team" className="w-6 h-6" /> },
+    { name: 'Support', path: '/support', icon: <Heart size={24} className="text-pink-500" /> }
   ];
 
   const persistentActions = [
     { 
       name: 'Live Radio', 
       icon: <div className="relative">
-              <img src="/images/lives.png" alt="Live Radio" className="w-10 h-10 transition-transform duration-300 group-hover:scale-110" />
+              <img src="/images/lives.png" alt="Live Radio" className="w-8 h-8 md:w-10 md:h-10 transition-transform duration-300 group-hover:scale-110" />
               <div className="absolute inset-0 bg-red-500/20 rounded-full animate-ping" />
             </div>,
       action: () => setIsPlayerOpen(true),
@@ -110,43 +102,47 @@ const Navbar = () => {
     },
     { 
       name: 'Podcasts', 
-      icon: <img src="/images/podcast.png" alt="Podcasts" className="w-10 h-10" />,
+      icon: <img src="/images/podcast.png" alt="Podcasts" className="w-8 h-8 md:w-10 md:h-10" />,
       action: () => console.log('Podcasts clicked'),
       className: "text-blue-500"
     }
   ];
 
   return (
-    <nav className="bg-white shadow-md">
+    <nav className="bg-white shadow-md relative z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-20">
+        <div className="flex justify-between h-16 md:h-20">
           {/* Logo section */}
           <div className="flex-shrink-0 flex items-center">
             <Link to="/" className="flex items-center space-x-3">
-              <img 
-                src="/images/logo.jpeg" 
-                alt="RadioMsafiri" 
-                className="h-12 w-auto" 
-              />
-              <span className="font-bold text-2xl hidden md:block">RadioMsafiri</span>
+              <img src="/images/logo.jpeg" alt="RadioMsafiri" className="h-10 w-auto" />
+              <span className="font-bold text-xl md:text-2xl hidden md:block">RadioMsafiri</span>
             </Link>
           </div>
 
-          {/* Persistent Actions */}
-          <div className="flex items-center space-x-6">
+          {/* Persistent Actions - Mobile Optimized */}
+          <div className="flex items-center space-x-2 md:space-x-6">
             {persistentActions.map((item) => (
               <button
                 key={item.name}
                 onClick={item.action}
-                className={`p-3 hover:bg-gray-100 rounded-full transition-colors duration-200 ${item.className} relative group`}
+                className={`p-2 md:p-3 hover:bg-gray-100 rounded-full transition-colors duration-200 ${item.className} relative group`}
                 title={item.name}
               >
                 {item.icon}
-                <span className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 text-xs text-gray-600 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                <span className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 text-xs text-gray-600 opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap">
                   {item.name}
                 </span>
               </button>
             ))}
+
+            {/* Mobile menu button */}
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className="md:hidden p-2 rounded-md text-gray-600 hover:text-blue-600 hover:bg-gray-100 focus:outline-none transition-all duration-300"
+            >
+              {isOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
           </div>
 
           {/* Desktop Navigation */}
@@ -162,48 +158,54 @@ const Navbar = () => {
               </Link>
             ))}
           </div>
-
-          {/* Mobile menu button */}
-          <div className="md:hidden flex items-center">
-            <button
-              onClick={() => setIsOpen(!isOpen)}
-              className="inline-flex items-center justify-center p-3 rounded-md text-gray-600 hover:text-blue-600 hover:bg-gray-100 focus:outline-none transition-transform transform"
-            >
-              {isOpen ? <X size={28} /> : <Menu size={28} />}
-            </button>
-          </div>
         </div>
       </div>
 
-      {/* Enhanced Mobile menu */}
+      {/* Backdrop */}
       <div
-        className={`${
-          isOpen ? 'translate-x-0 opacity-100' : '-translate-x-full opacity-0'
-        } md:hidden fixed top-0 left-0 h-screen w-4/5 z-50 bg-white shadow-2xl transition-all duration-500 ease-in-out transform`}
-      >
-        {/* Mobile Header */}
-        <div className="bg-gray-50 p-4 flex items-center justify-between border-b">
-          <img src="/images/logo.jpeg" alt="RadioMsafiri" className="h-10 w-auto" />
-          <button
-            onClick={() => setIsOpen(false)}
-            className="p-2 rounded-full hover:bg-gray-200 transition-colors"
-          >
-            <X size={24} className="text-gray-600" />
-          </button>
-        </div>
+        className={`fixed inset-0 bg-black/30 backdrop-blur-sm transition-opacity duration-300 md:hidden ${
+          isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
+        }`}
+        onClick={() => setIsOpen(false)}
+      />
 
-        {/* Mobile Navigation Items */}
-        <div className="py-6 px-4 space-y-2">
-          {navigationItems.map((item) => (
-            <Link
-              key={item.name}
-              to={item.path}
-              className="w-full text-left text-gray-600 hover:text-blue-600 px-4 py-2 rounded-md flex items-center space-x-2"
-            >
-              {item.icon}
-              <span>{item.name}</span>
+      {/* Mobile Navigation Drawer */}
+      <div
+        className={`fixed top-0 left-0 h-full w-72 bg-white shadow-2xl transform transition-transform duration-300 ease-in-out md:hidden ${
+          isOpen ? 'translate-x-0' : '-translate-x-full'
+        }`}
+      >
+        <div className="flex flex-col h-full">
+          {/* Mobile Header */}
+          <div className="p-4 bg-gray-50 flex items-center justify-between border-b">
+            <Link to="/" className="flex items-center space-x-2" onClick={() => setIsOpen(false)}>
+              <img src="/images/logo.jpeg" alt="RadioMsafiri" className="h-8 w-auto" />
+              <span className="font-bold text-lg">RadioMsafiri</span>
             </Link>
-          ))}
+            <button
+              onClick={() => setIsOpen(false)}
+              className="p-2 rounded-full hover:bg-gray-200 transition-colors"
+            >
+              <X size={20} className="text-gray-600" />
+            </button>
+          </div>
+
+          {/* Navigation Items */}
+          <div className="flex-1 overflow-y-auto py-4">
+            {navigationItems.map((item) => (
+              <Link
+                key={item.name}
+                to={item.path}
+                onClick={() => setIsOpen(false)}
+                className="flex items-center space-x-3 px-4 py-3 text-gray-600 hover:bg-gray-50 hover:text-blue-600 transition-colors duration-200"
+              >
+                <div className="w-6 h-6 flex items-center justify-center">
+                  {item.icon}
+                </div>
+                <span className="font-medium">{item.name}</span>
+              </Link>
+            ))}
+          </div>
         </div>
       </div>
 
